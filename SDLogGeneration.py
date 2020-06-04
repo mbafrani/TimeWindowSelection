@@ -186,4 +186,5 @@ class SDLogGeneration:
                 xxx = zip(*xx)
                 writer.writerows(xxx)
 
+
         return Overall_dict, Name_General_selected_variables_dict

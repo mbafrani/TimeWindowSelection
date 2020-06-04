@@ -10,11 +10,11 @@ if __name__=="__main__":
     tw_result=""
     event_log= "event_log.csv"
     event_log = pd.read_csv(event_log)
-    tw_lists = ['1H','7D','1W'] # sample time window lists = [8H,2D,1W,1M]
+    tw_lists = ['1H','8H','7D','1W'] # sample time window lists = [8H,2D,1W,1M]
     tw_discovered = sdgen.TW_discovery_process_calculation_twlist(event_log=event_log, tw_lists=tw_lists, aspect="General")
     generated_SD_log = tw_discovered[1]
     overall_dict = tw_discovered[0]
-    TW_Dete_dict = tws.Detect_pattern_tw(overall_dict, event_log)
+    TW_Dete_dict = tws.Detect_pattern_tw(overall_dict, event_log,True)
     tw_best = max(TW_Dete_dict, key=TW_Dete_dict.get)
     tw_worse = min(TW_Dete_dict, key=TW_Dete_dict.get)
     for k, v in TW_Dete_dict.items():
@@ -36,6 +36,6 @@ if __name__=="__main__":
         Active_SD_Log = (tws.Post_process_tw(sd_log, TW_Dete_dict))
         active_overall_dict["Arrival rate"][name_sd_tw] = Active_SD_Log[Active_SD_Log.columns[0]]
 
-        active_TW_Dete_dict = tws.Detect_pattern_tw(active_overall_dict, event_log)
+        active_TW_Dete_dict = tws.Detect_pattern_tw(active_overall_dict, event_log,False)
 
     tws.Detect_best_user_tw(active_TW_Dete_dict, active_overall_dict)
